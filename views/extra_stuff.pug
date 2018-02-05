@@ -1,0 +1,31 @@
+//if display
+        div(style="display:none")
+            hr
+
+
+            h3 Another day done!
+            h5 Anything else you want to add to today?
+
+            ul
+            each a in acc
+                li #{a.accomplishment_name}
+
+            form#formAcc(method='POST' action='/newacc')
+                div.form-group
+                  label.col-sm-2(for='accomplishment_name' ) Accomplishment:
+                  div.col-sm-8
+                    input#task_name.form-control(type='text', placeholder='Had a good day!' name='accomplishment_name' required)
+
+
+
+
+                    div.row.task-extra-adjust
+                        div.col-sm-12
+                            if task.priority_level > 8
+                                p(style="color:red") Priority level: high
+                            else if task.priority_level > 6
+                                p(style="color:DarkOrange") Priority level: relatively high
+                            else if task.priority_level > 3
+                                p(style="color:gold") Priority level: medium 
+                            else 
+                                p(style="color:green") Priority level: low

@@ -1,0 +1,407 @@
+/*!
+ * SNOW Landing Page Theme
+ *
+ * Created by Visual Soldiers
+ * Visit us at http://www.visualsoldiers.com
+ *
+ * Handcrafted with love in Atlanta!
+ */
+
+
+/* ==========================================================================
+   Global styles
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6, p, .btn, .navbar-nav a, .form-control, .list-inline, small {
+  font-family: 'Montserrat', sans-serif;
+}
+
+p, .lead {
+	font-family: 'Raleway', sans-serif;
+}
+
+h1 {
+  font-size: 55px;
+  line-height: 55px;
+  letter-spacing: -1px;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 30px;
+  line-height: 40px;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 16px;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #231f20;
+  font-weight: 700;
+}
+
+.lead {
+  font-size: 21px;
+  line-height: 26px;
+  color: #ffffff;
+  font-weight: 400;
+}
+
+p {
+  font-size: 17px;
+  line-height: 22px;
+  color: #929496;
+  font-weight: 400;
+}
+
+#main-info {
+  /*background: linear-gradient(to bottom, #9FD8E8, white);*/
+  background:white;
+  height:100%;
+  width:100%;
+  margin:0;
+
+}
+
+/*------------------Utilities---------------------*/
+a {
+  color: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  text-decoration: none;
+}
+
+/*a:hover, a:focus {
+  text-decoration: none;
+  color: #231f20;
+  -webkit-transition: all 0.35s ease-in-out;
+  -moz-transition: all 0.35s ease-in-out;
+  -o-transition: all 0.35s ease-in-out;
+  transition: all 0.35s ease-in-out;
+}
+*/
+li a.menu:hover {
+  text-decoration: underline;
+}
+
+a.menu:hover {
+  text-decoration: underline;
+}
+
+button.menu:hover {
+  text-decoration: underline;
+}
+
+.no-underline:hover {
+    text-decoration: none;
+    opacity:0.6;
+    -webkit-transition: all 0.35s ease-in-out;
+    -moz-transition: all 0.35s ease-in-out;
+    -o-transition: all 0.35s ease-in-out;
+    transition: all 0.35s ease-in-out;
+}
+
+button.no-underline:focus {
+  text-decoration: none;
+}
+
+/*#menuLogin{
+    text-decoration: none;
+}*/
+
+.fa-lg {
+  font-size: 1.33333em;
+  line-height: 0.75em;
+  vertical-align: -10%;
+}
+
+::selection {
+	background: #231f20; /* Safari */
+	color: #FFFFFF;
+}
+::-moz-selection {
+	background: #231f20; /* Firefox */
+	color: #FFFFFF;
+}
+
+
+/*------------------Buttons---------------------*/
+.btn:focus {
+  outline: 0px auto -webkit-focus-ring-color;
+  outline: none;
+}
+
+.btn {
+  border-radius: 4px;
+  border: none;
+}
+
+.btn-lg {
+  font-size: 13px;
+  line-height: 1.33;
+  padding: 22px 30px;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.btn-sm {
+  font-size: 11px;
+  line-height: 1.33;
+  padding: 10px 18px;
+  font-weight: 400;
+}
+
+.btn-wide {
+  width: 100%;
+  font-size: 13px;
+  line-height: 1.33;
+  padding: 18px 28px;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.btn-primary-initial {
+  background-color:#A8DBEC;
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  color: #231f20;
+}
+
+
+/*-----------------Margins------------------*/
+.margin-20 {
+    margin-bottom: 20px !important;
+}
+
+/*-----------------Colors------------------*/
+
+.black {
+  color: #231f20;
+}
+
+.blue {
+  color: #70cbce;
+}
+
+.white {
+  color: #ffffff;
+}
+
+
+/* ==========================================================================
+   Nav Styles
+   ========================================================================== */
+
+.navbar {
+    border: 0px solid rgba(0, 0, 0, 0);
+    background:white;
+    margin: auto;
+    min-height: 60px;
+    padding-top: 8px;
+    position: fixed;
+    top: -60px;
+    transition: top 0.4s ease 0s;
+}
+
+.navbar.open {
+    top: 0;
+}
+
+.navbar-inverse .navbar-nav > li > a, .navbar-nav a {
+    color: #ffffff;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+/*.navbar-inverse .navbar-nav > li > a:hover {
+    color: #ffffff;
+    opacity: 0.6;
+}*/
+
+.nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 10px;
+}
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+    border-color: #4ec3cd;
+}
+
+.navbar-inverse .navbar-toggle {
+    border-color: transparent;
+}
+
+.logo img {
+	margin-top: 6px;
+}
+
+
+
+/* ==========================================================================
+   Main styles
+   ========================================================================== */
+header {
+  background: url(../img/notebook-dim.png) no-repeat center center;
+  width: 100%;
+  padding: 20px 10px 60px 10px;
+  height: 100vh;
+  overflow: hidden;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+}
+
+.header-info {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  right: 0;
+  margin-left: 0px;
+  margin-bottom: 16%;
+}
+
+.loginform {
+  position: absolute;
+  bottom: 0;  
+  margin-left:22.5%;
+  margin-bottom: 18%;
+}
+
+.signupform {
+  position: absolute;
+  bottom: 0;  
+  margin-left:22.5%;
+  margin-bottom: 13%;
+}
+
+.signin {
+  padding-top: 9px;
+}
+
+@keyframes scrolling {
+0% {
+    opacity: 0;
+    top: 5px;
+}
+30% {
+    opacity: 1;
+    top: 10px;
+}
+100% {
+    opacity: 0;
+    top: 25px;
+}
+}
+
+.pad-xl {
+	padding: 170px 0px;
+}
+
+hr.line {
+	width: 100%;
+	border: 2px solid;
+}
+
+.lightblue {
+  border-color:#A8DBEC;
+  color:#A8DBEC;
+}
+
+.fa-pencil-square-o {
+  /*color: #4ec3cd;*/
+  color:#A8DBEC;
+  font-size: 50px;
+  display: block;
+  padding-top: 0px;
+  padding-left:4px;
+  width: 60px;
+  height: 60px;
+  margin: auto;
+}
+
+.feature i {
+  font-size:4em;
+  color:#A8DBEC
+}
+
+.feature-content h5 {
+  margin-top:20px;
+  font-weight:bold;
+}
+
+.feature-content p {
+  margin-top:10px;
+  font-size:14px;
+  font-family: 'Helvetica';
+  font-weight: lighter;
+}
+
+footer {
+  background: #ffffff;
+  padding: 40px 0px;
+}
+
+.info {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-weight: 300;
+  font-size: 13px;
+  color: #929496;
+  background: #ffffff;
+}
+
+
+
+/* ==========================================================================
+   Mobile styles
+   ========================================================================== */
+/* Landscape phones and down */
+@media (max-width: 480px) { 
+  
+.btn-wide {
+  width: 100%;
+  font-size: 12.5px;
+  line-height: 1.33;
+/*  padding: 16px 13px;
+*/  letter-spacing: 0px;
+}
+
+
+.icon {
+  font-family: 'elegant-theme-line';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+
+
+/* Desktops and laptops ----------- */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+     
+/* Large screens ----------- */
+@media (min-width: 1200px) and (max-width: 3000px) {
+
+}   
+
+
+
+
+
+

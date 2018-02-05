@@ -1,0 +1,59 @@
+extends layout
+
+block content
+
+    div.container.col-sm-12
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+
+    div.col-sm-2
+    div.container.index-group.col-sm-7(style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1)")
+        div.row
+            h2.title #{date}
+
+            h5(style="margin-left: 30px; font-family: 'Helvetica'") Here are all the tasks you finished today!
+
+        br
+        hr
+
+        if tasks.length > 0
+            each task in tasks
+                div.row.task-group-adjust.no-gutters
+                    div.col-sm-8(style="padding-left:10 padding-right:0")
+                        p(style="display:inline-block") #{task.task_name} &nbsp;
+
+                hr
+
+        br
+        h4.highlights-title Highlights
+        h5(style="margin-left: 14px; font-family: 'Helvetica'") Here are some reasons to smile!
+        br
+        hr
+
+        if acc.length > 0
+            each a in acc
+                if a.accomplishment_name.length > 0
+                    div.row.task-group-adjust.no-gutters
+                        div.col-sm-12(style="padding-left:2%; padding-right:0")
+                            
+                            p(style="margin-bottom:0px") #{a.statement_day_detail}
+                            span(class="glyphicon glyphicon-star" style="color:lightblue; display: inline")
+                            p(style="display:inline") &nbsp; #{a.accomplishment_name}
+                        div.col-sm-12
+                            p(style="font-size:2px; margin-bottom:9px") &nbsp;
+                            
+                             
+  
+                    hr
+        br
+

@@ -1,0 +1,33 @@
+extends layout
+
+block content
+    div.container.col-sm-12
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+
+    div.col-sm-2
+    div.container.index-group.col-sm-7(style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1)")
+        div.row
+            h2.title Archive
+            h5(style="font-weight:normal;margin-left:4.5%") Click on a day to see more.
+        br
+        hr
+        if days.length > 0
+            each d in days
+                div.row.task-group-adjust.no-gutters
+                    div.col-sm-8
+                        a(href=d.url style="color:black")
+                            p #{d.date_formatted}
+                hr
+        else
+            p Your archive is empty! Start a new task today.

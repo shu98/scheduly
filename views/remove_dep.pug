@@ -1,0 +1,63 @@
+extends layout
+
+block content
+    div.container.col-sm-12
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+
+    div.col-sm-2
+    div.container.index-group.col-sm-7(style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1)")       
+        div.row
+            h2.title Remove Dependency
+            h5.subtitle-pending(style="padding-left:3.5%") Are you sure you want to remove this dependency from the following task? Note that this will not remove the dependency from your todo list.
+
+            h5(style="padding-left:5%") #{maintask.task_name}
+
+            hr(style="margin-left:3%; margin-right:3%")
+
+        div.row.dep-task-group-adjust
+            div.col-sm-10(style="padding-right:0")
+                p(style="display:inline-block") Dependency: #{task.task_name} &nbsp;
+
+
+        div.row.dep-task-group-adjust
+            div.col-sm-5(style="padding-right:0")
+                p Deadline: #{task.deadline_formatted_2}
+
+            //div.col-sm-5
+              //  p Status: #{task.status}
+
+            div.col-sm-4(style="padding-right:0")
+                if task.priority_level > 8
+                    p(style="color:red") Priority level: high
+                else if task.priority_level > 6
+                    p(style="color:DarkOrange") Priority level: relatively high
+                else if task.priority_level > 3
+                    p(style="color:gold") Priority level: medium 
+                else 
+                    p(style="color:green") Priority level: low
+
+        div.row.dep-task-group-adjust
+            div.col-sm-12
+                if task.task_description != ''
+                    p Notes: #{task.task_description}  
+                else
+                    p Notes: None 
+
+        br
+        form.form-horizontal.form-group-adjust(method='POST' action=''  style="margin-left:2.5%")
+            button.btn.btn-primary(type='submit' style="padding-top:0.9%; padding-bottom:1%") Remove 
+            p(style="display:inline") &nbsp;
+            a(href='/tasks/pending' class="btn btn-default") Cancel
+
+

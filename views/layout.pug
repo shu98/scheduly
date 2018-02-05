@@ -1,0 +1,65 @@
+doctype html
+html(lang='en')
+  head
+    title= title
+    meta(charset='utf-8')
+    //meta(content="text/html;charset=ISO-8859-1")
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+
+  body
+    //nav(class="navbar navbar-default navbar-fixed-top" role="navigation" style="box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)")
+    nav(class="navbar navbar-default navbar-fixed-top" role="navigation" )
+      div(class="container")
+
+        div(class="navbar-header")
+          button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" style="background-color:white")
+            span(class="sr-only") Toggle navigation
+            span(class="icon-bar" style="background-color:lightblue")
+            span(class="icon-bar" style="background-color:lightblue")
+            span(class="icon-bar" style="background-color:lightblue")
+
+      div(id="navbar" class="navbar-collapse collapse")
+        if (user)
+          ul(class="nav navbar-nav navbar-left" style="margin-left:4.1%")
+            li 
+              a.nav-elements(href='/') Today
+            li 
+              a.nav-elements(href='/tasks/pending') On Hold
+            li 
+              a.nav-elements(href='/tasks/archive') Archive
+
+          form.navbar-form(role="search" style="display:inline" method="POST" action="/tasks/search")
+            div.input-group(style="margin-top:8px; width:40%")
+              input.search-tasks.autocomplete(type="text", class="form-control" placeholder="Search" name="searchtasks" id="searchtasks")
+              div.input-group-btn
+                button.btn.btn-default(type="submit")
+                  i.glyphicon.glyphicon-search
+
+          ul(class="nav navbar-nav navbar-right" style="margin-right:4.1%")
+            li
+              a.nav-elements(href='/users/logout') Logout
+              
+        else
+          ul(class="nav navbar-nav navbar-right original" style="margin-right:4.1%")
+            li.nav-item
+              a(href='/users/signup') Sign up
+            li.nav-item
+              a(href='/users/login') Login
+            
+    div.block-content(class='col-sm-12')
+          block content
+
+    script
+      include ../public/javascripts/jquery.autocomplete.min.js
+      include ../public/javascripts/autocomplete.js
+
+    
+            
+              
+        
+
+  

@@ -1,0 +1,86 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        title Login
+        meta(name="keywords", content="")
+        meta(name="description" content="")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
+
+        meta(property="og:title" content="")
+        meta(property="og:type" content="website")
+        meta(property="og:url" content="")
+        meta(property="og:site_name" content="")
+        meta(property="og:description" content="")
+
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+        script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+
+        link(rel="stylesheet" href="/stylesheets/main.css")
+        link(rel="stylesheet" href="/stylesheets/font-awesome.min.css")
+        link(rel="stylesheet" href="/stylesheets/animate.css")
+        link(href='http://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,700,800,900|Montserrat:400,700' rel='stylesheet' type='text/css')
+
+        script(src="javascripts/modernizr-2.7.1.js")
+
+
+    body
+        div(class="navbar navbar-inverse navbar-fixed-top")
+            div(class="container")
+                div(class="navbar-header")
+                    button(type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse")
+                        span(class="icon-bar")
+                        span(class="icon-bar")
+                        span(class="icon-bar")
+                div(class="navbar-collapse collapse")
+                    ul(class="nav navbar-nav navbar-right")
+                        
+                        li
+                            a.menu(href="/welcome") Homepage
+                
+    header
+        div(class="container")
+            div(class="row")
+                div(class="col-xs-6")
+                div(class="col-xs-6 signin text-right navbar-nav")
+                    a.no-underline(href="/welcome") Homepage
+
+
+
+
+        div.col-sm-2
+        div.container.loginform.col-sm-6(style="background-color:white; box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1); height:50%") 
+            div.row
+                h2.col-sm-offset-4(style="padding-top:4%; color:black; padding-left:10%") Login
+
+            
+            div.row
+                div.col-sm-10
+                    p(style="color:red; font-size:14px; margin-left:30%") Username or password incorrect. Please try again.
+
+            form#loginform.form-horizontal.container(method='POST' action='' align='center')
+                div.form-group
+                    div.col-sm-4(style="margin-left:10%")
+                        input#username.form-control(type='text' name='username' placeholder='Username' required)
+
+                div.form-group
+                    div.col-sm-4(style="margin-left:10%")
+                        input#password.form-control(type='password' name='password' placeholder='Password' required)
+
+
+                div.form-group
+                    div.col-sm-4(style="margin-left:10%")
+                        button#loginbutton.btn.btn-primary.btn-primary-initial(type='submit' style="width:100%") Log in
+
+
+            br  
+            div.col-sm-offset-2
+                p(style="margin-left:19%; font-size:14px") Don't have an account? Sign up 
+                    a(href='/users/signup' style="text-decoration:underline") here
+
+    script
+        include ../public/javascripts/login_button.js
+
+
+

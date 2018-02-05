@@ -1,0 +1,123 @@
+extends layout 
+
+block content
+    div.container.col-sm-12
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+
+    div.col-sm-2
+    div.container.index-group.col-sm-7(style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1)")
+    
+        div.row
+            h2.title Schedule Reminder
+            h5(style="margin-left: 4.5%; font-family: 'Helvetica'") Task: #{task.task_name}
+
+        p
+
+        br
+
+        form#reminderform.form-horizontal.form-group-adjust(method='POST' action=task.url_reminder)
+
+            div.form-group
+                label.col-sm-3(for='reminder' required) Set a reminder
+                div.col-sm-4
+                    input#reminder.form-control(type='date' value=reminder_default name='reminder')
+                p &nbsp; &nbsp; (Default is set to tomorrow)
+
+            div.form-group
+                label.col-sm-3(for='reminder_time' required) For this time
+                div.col-sm-4
+                    input#reminder_time.form-control(type='time' value="04:00:00" name='reminder_time')
+
+            br
+
+            div.form-group
+                label.col-sm-10(for='dependency') Or remind about this task once the following tasks are complete
+                ul#checkbox
+                    for t in incomplete
+                        li(style="list-style:none display:inline-block")
+                            input.checkbox-input(type='checkbox', name='dependency', id=t._id, value=t._id, checked=t.checked )
+                            label(for=t._id style='font-weight:normal') &nbsp;#{t.task_name} 
+
+                    li#copy.hide(style="list-style:none display:inline-block")
+                        input.checkbox-input(type='checkbox', name='dependency', id='' checked)
+                        label(for='dependency' style='font-weight:normal') &nbsp;
+
+
+            div.form-group(style="padding-left:10px")
+                div.row(style="padding-left:10px")
+                    //div.col-sm-3
+                        //label.col-form-label(for='taskname') 
+                            //span(style="font-family:'Helvetica';font-weight:normal") Add dependency 
+                    div.col-sm-8(style="padding-left:2%")
+                        input#taskname.form-control.task-border.input-sm(type='text' name='taskname' placeholder="Finish me first!")
+                        p(style="font-size:12px; padding-top:3px") This task will be added to your todo list
+                    div.col-sm-3
+                        button#initial_dep.btn.btn-primary(type='button' style="padding-top:3px; padding-bottom:4px" data-toggle="modal" data-target="#createtask") Add dependency
+
+
+
+            button.btn.btn-primary(type='submit') Set reminder
+
+        div.modal.fade(id="createtask")
+            div#taskmodal.class.modal-dialog
+                div.modal-content
+                    div.modal-header
+                        button(type="button" class="close" data-dismiss="modal") &times;
+                        h3.modal-title Add Task
+                    div.modal-header
+                        form(role="form" method="POST" name="dependencyform" action=task.url_add_dependency)
+                            div.form-group
+                                label.col-sm-2(for='task_name') Task:
+                                div.col-sm-10
+                                    input#task_name.form-control(type='text'  name='task_name' required)
+                            div.form-group
+                                br
+                                br
+                            div.form-group
+                                label.col-sm-2(for='deadline' style="padding-top:7px") Deadline:
+                                div.col-sm-4
+                                    input#deadline.form-control(type='date' value=deadline_default name='deadline' required)
+
+                                label.col-sm-3(for='priority_level' style="padding-top:7px" ) Priority level:
+                                div.col-sm-3
+                                    select#priority_level.form-control(type='select' name='priority_level' required)
+                                        for val in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+                                            if val == 0
+                                                option(value=val selected="selected") None
+
+                                            else if val == 1
+                                                option(value=val) #{val} - Low
+
+                                            else if val == 5
+                                                option(value=val) #{val} - Medium
+
+                                            else if val == 10
+                                                option(value=val) #{val} - High 
+
+                                            else 
+                                                option(value=val) #{val}
+                            div.form-group
+                                br
+                                br
+                            button#dependencybutton.btn.btn-primary(type="submit" for="dependencyform" style="margin-left:2%") Add task
+                            p(style="display:inline") &nbsp; 
+                            button.btn.btn-default(type="button" data-dismiss="modal") Cancel
+
+        br
+        br
+        br
+
+    script
+        include ../public/javascripts/add_dep.js

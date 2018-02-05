@@ -1,0 +1,27 @@
+        form#sortForm.form-horizontal.container(method='POST' action='')
+            label.col-sm-1(for='sortby' control-label) Sort by
+            div.col-sm-3
+                select#sortby.form-control(type='select' name='sortby' required)
+                    if sortby == 'date_added_first'
+                        option(value='priority_high') Priority
+                        option(value='deadline_first') Deadline
+                        option(value='date_added_first' selected="selected") Oldest to newest
+                        option(value='date_added_last') Newest to oldest
+
+                    else if sortby == 'dated_added_last'
+                        option(value='priority_high') Priority
+                        option(value='deadline_first') Deadline
+                        option(value='date_added_first') Oldest to newest
+                        option(value='date_added_last' selected="selected") Newest to oldest
+
+                    else if sortby == 'deadline_first'
+                        option(value='priority_high') Priority
+                        option(value='deadline_first' selected="selected") Deadline
+                        option(value='date_added_first') Oldest to newest
+                        option(value='date_added_last' ) Newest to oldest
+
+                    else if sortby == 'priority_high'
+                        option(value='priority_high' selected="selected") Priority
+                        option(value='deadline_first') Deadline
+                        option(value='date_added_first') Oldest to newest
+                        option(value='date_added_last' ) Newest to oldest

@@ -1,0 +1,405 @@
+extends layout
+
+block content
+    div.container.col-sm-12
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+
+    div.col-sm-2
+    div.container.index-group.col-sm-7(style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1)")
+        div.row
+            h2.title Edit task
+            h5(style="margin-left: 30px; font-family: 'Helvetica'") Task: #{task.task_name}
+
+        p
+
+        form.form-horizontal.form-group-adjust(method='POST' action='')
+            div.form-group
+              label.col-sm-2(for='task_name' required) Task:
+              div.col-sm-10
+                input#task_name.form-control(type='text' value=task.task_name name='task_name' required)
+
+            if !isRepeating
+
+                div.form-group
+                    label.col-sm-2(for='repeat') Repeat:
+                    div.col-sm-10
+                        select#repeat.form-control(type='select' name='repeat' required)
+                            option(value='never' selected="selected") Never
+                            option(value='custom') Custom
+
+                div#forRepeat.form-group(style="display:none")
+                    label.col-sm-2(for='freq' required) Repeat every:
+                    div.col-sm-2
+                        input#freq.form-control(type='number' value=1 name='freq')
+                    div.col-sm-3
+                        select#unit_of_time.form-control(type='select' name='unit_of_time' required)
+                                option(value='day') day(s)
+                                option(value='week' selected="selected") week(s)
+                                option(value='month') month(s)
+                                option(value='year') year(s)
+
+
+                div#forRepeat2.form-group(style="display:none")
+                    label.col-sm-2(for='repeat_on' control-label) Repeat on:
+                    div.col-sm-10
+                        label.checkbox-inline
+                            input.checkbox-input(type='checkbox', name='repeat_on' value=0 checked) 
+                            p Sun
+                        label.checkbox-inline
+                            input.checkbox-input(type='checkbox', name='repeat_on' value=1)
+                            p Mon
+                        label.checkbox-inline
+                            input.checkbox-input(type='checkbox', name='repeat_on' value=2)
+                            p Tue
+                        label.checkbox-inline
+                            input.checkbox-input(type='checkbox', name='repeat_on' value=3)
+                            p Wed
+                        label.checkbox-inline
+                            input.checkbox-input(type='checkbox', name='repeat_on' value=4)
+                            p Thu
+                        label.checkbox-inline
+                            input.checkbox-input(type='checkbox', name='repeat_on' value=5)
+                            p Fri
+                        label.checkbox-inline
+                            input.checkbox-input(type='checkbox', name='repeat_on' value=6)
+                            p Sat
+
+            else 
+
+                div.form-group
+                    label.col-sm-2(for='repeat') Repeat:
+                    div.col-sm-10
+                        select#repeat.form-control(type='select' name='repeat' required)
+                            option(value='never') Never
+                            option(value='custom' selected="selected") Custom
+
+                div#forRepeat.form-group
+                    label.col-sm-2(for='freq' required) Repeat every:
+                    div.col-sm-2
+                        input#freq.form-control(type='number' value=task.freq name='freq')
+                    div.col-sm-3
+                        select#unit_of_time.form-control(type='select' name='unit_of_time' required)
+                            if task.unit_of_time == "week"
+                                option(value='day') day(s)
+                                option(value='week' selected="selected") week(s)
+                                option(value='month') month(s)
+                                option(value='year') year(s)
+
+                            else if task.unit_of_time == "day"
+                                option(value='day' selected="selected") day(s)
+                                option(value='week') week(s)
+                                option(value='month') month(s)
+                                option(value='year') year(s)
+
+                            else if task.unit_of_time == "month"
+                                option(value='day') day(s)
+                                option(value='week') week(s)
+                                option(value='month' selected="selected") month(s)
+                                option(value='year') year(s)
+
+                            else if task.unit_of_time == "week"
+                                option(value='day') day(s)
+                                option(value='week' ) week(s)
+                                option(value='month') month(s)
+                                option(value='year' selected="selected") year(s)
+
+
+                if task.unit_of_time == "week"
+                    div#forRepeat2.form-group
+                        label.col-sm-2(for='repeat_on' control-label) Repeat on:
+                        div.col-sm-10
+                            if task.repeat_on.indexOf(0) != -1
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=0 checked) 
+                                    p Sun
+                            else 
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=0) 
+                                    p Sun
+
+                            if task.repeat_on.indexOf(1) != -1
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=1 checked) 
+                                    p Mon
+                            else 
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=1) 
+                                    p Mon    
+
+
+                            if task.repeat_on.indexOf(2) != -1
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=2 checked) 
+                                    p Tue
+                            else 
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=2) 
+                                    p Tue
+
+                            if task.repeat_on.indexOf(3) != -1
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=3 checked) 
+                                    p Wed
+                            else 
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=3) 
+                                    p Wed     
+
+                            if task.repeat_on.indexOf(4) != -1
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=4 checked) 
+                                    p Thu
+                            else 
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=4) 
+                                    p Thu  
+
+                            if task.repeat_on.indexOf(5) != -1
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=5 checked) 
+                                    p Fri
+                            else 
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=5) 
+                                    p Fri 
+
+                            if task.repeat_on.indexOf(6) != -1
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=6 checked) 
+                                    p Sat
+                            else 
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=6) 
+                                    p Sat 
+                else
+                    div#forRepeat2.form-group(style="display:none")
+                        label.col-sm-2(for='repeat_on' control-label) Repeat on:
+                        div.col-sm-10
+                            if task.repeat_on.indexOf(0) != -1
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=0 checked) 
+                                    p Sun
+                            else 
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=0) 
+                                    p Sun
+
+                            if task.repeat_on.indexOf(1) != -1
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=1 checked) 
+                                    p Mon
+                            else 
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=1) 
+                                    p Mon    
+
+
+                            if task.repeat_on.indexOf(2) != -1
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=2 checked) 
+                                    p Tue
+                            else 
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=2) 
+                                    p Tue
+
+                            if task.repeat_on.indexOf(3) != -1
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=3 checked) 
+                                    p Wed
+                            else 
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=3) 
+                                    p Wed     
+
+                            if task.repeat_on.indexOf(4) != -1
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=4 checked) 
+                                    p Thu
+                            else 
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=4) 
+                                    p Thu  
+
+                            if task.repeat_on.indexOf(5) != -1
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=5 checked) 
+                                    p Fri
+                            else 
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=5) 
+                                    p Fri 
+
+                            if task.repeat_on.indexOf(6) != -1
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=6 checked) 
+                                    p Sat
+                            else 
+                                label.checkbox-inline
+                                    input.checkbox-input(type='checkbox', name='repeat_on' value=6) 
+                                    p Sat            
+
+            div.form-group
+                label.col-sm-2(for='task_description') Notes:
+                div.col-sm-10
+                    textarea#task_description.form-control(type='text' name='task_description' ) #{task.task_description}
+            
+            div.form-group
+                label.col-sm-2(for='deadline') Deadline:
+                div.col-sm-4
+                    input#deadline.form-control(type='date' value=deadline name='deadline' required)
+
+                
+                label.col-sm-3(for='priority_level') Priority level:
+                div.col-sm-3
+                    select#priority_level.form-control(type='select' name='priority_level' required)
+                        for val in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+                            if val == 0
+                                if task.priority_level == val
+                                    option(value=val selected="selected") None
+                                else
+                                    option(value=val) None
+
+                            else if val == 1
+                                if task.priority_level == val
+                                    option(value=val selected="selected") #{val} - Low
+                                else
+                                    option(value=val) #{val} - Low
+
+                            else if val == 5
+                                if task.priority_level == val
+                                    option(value=val selected="selected") #{val} - Medium
+                                else
+                                    option(value=val) #{val} - Medium
+
+                            else if val == 10
+                                if task.priority_level == val
+                                    option(value=val selected="selected") #{val} - High
+                                else
+                                    option(value=val) #{val} - High 
+
+                            else 
+                                if task.priority_level == val
+                                    option(value=val selected="selected") #{val}
+                                else
+                                    option(value=val) #{val}
+
+                            
+
+            if !isPending
+
+                div.form-group
+                    label.col-sm-2(for='status') Status:
+                    div.col-sm-4
+                        select#status.form-control(type='select' name='status' required)
+                                option(value='incomplete' selected="selected") Incomplete
+                                option(value='pending') On Hold
+                                option(value='complete') Complete
+
+
+                div#forPending.form-group(style="display:none")
+                    label.col-sm-2(for='reminder' required) Set a reminder:
+                    div.col-sm-4
+                        input#reminder.form-control(type='date' value=reminder name='reminder')
+                    label.col-sm-2(for='reminder_time' required) For this time:
+                    div.col-sm-4
+                        input#reminder_time.form-control(type='time' value=default_reminder_time name='reminder_time')
+
+
+                div#forPending2.form-group(style="display:none")
+                    label.col-sm-10(for='dependency') Add dependencies
+                    ul#checkbox(style="display:inline")
+                        for t in incomplete
+                            li(style="list-style:none display:inline")
+                                input.checkbox-input(type='checkbox', name='dependency', id=t._id, value=t._id, checked=t.checked )
+                                label(for=t._id style='font-weight:normal') &nbsp;#{t.task_name} 
+
+                        li#copy.hide(style="list-style:none display:inline-block")
+                            input.checkbox-input(type='checkbox', name='dependency', id='' checked)
+                            label(for='dependency' style='font-weight:normal') &nbsp;
+
+
+                div#forPending3.form-group(style="padding-left:10px; display:none")
+                    div.row(style="padding-left:10px")
+                        //div.col-sm-3
+                            //label.col-form-label(for='taskname') 
+                                //span(style="font-family:'Helvetica';font-weight:normal") Add dependency 
+                        div.col-sm-8(style="padding-left:2%")
+                            input#taskname.form-control.task-border.input-sm(type='text' name='taskname' placeholder="Finish me first!")
+                            p(style="font-size:12px; padding-top:3px") This task will be automatically added to today
+                        div.col-sm-3
+                            button.add-dep.btn.btn-primary(type='button' style="padding-top:3px; padding-bottom:4px") Add dependency
+
+            else 
+
+                div.form-group
+                    label.col-sm-2(for='status') Status:
+                    div.col-sm-4
+                        select#status.form-control(type='select' name='status' required)
+                                option(value='incomplete') Incomplete
+                                option(value='pending' selected="selected") Pending
+                                option(value='complete') Complete
+
+
+                div#forPending.form-group
+                    label.col-sm-2(for='reminder' required) Set a reminder:
+                    div.col-sm-4
+                        input#reminder.form-control(type='date' value=reminder name='reminder')
+                    label.col-sm-2(for='reminder_time' required) For this time:
+                    div.col-sm-4
+                        input#reminder_time.form-control(type='time' value=default_reminder_time name='reminder_time')
+
+
+                div#forPending2.form-group
+                    label.col-sm-10(for='dependency') Or remind about this task once the following tasks are complete
+                    ul#checkbox(style="display:inline")
+                        for t in incomplete
+                            li(style="list-style:none display:inline")
+                                input.checkbox-input(type='checkbox', name='dependency', id=t._id, value=t._id, checked=t.checked )
+                                label(for=t._id style='font-weight:normal') &nbsp;#{t.task_name} 
+
+                        li#copy.hide(style="list-style:none display:inline-block")
+                            input.checkbox-input(type='checkbox', name='dependency', id='' checked)
+                            label(for='dependency' style='font-weight:normal') &nbsp;
+
+
+                div#forPending3.form-group(style="padding-left:10px")
+                    div.row(style="padding-left:10px")
+                        //div.col-sm-3
+                            //label.col-form-label(for='taskname') 
+                                //span(style="font-family:'Helvetica';font-weight:normal") Add dependency 
+                        div.col-sm-8(style="padding-left:2%")
+                            input#taskname.form-control.task-border.input-sm(type='text' name='taskname' placeholder="Finish me first!")
+                            p(style="font-size:12px; padding-top:3px") This task will be automatically added to today
+                        div.col-sm-3
+                            button.add-dep.btn.btn-primary(type='button' style="padding-top:3px; padding-bottom:4px") Add dependency
+
+
+
+            button.btn.btn-primary(type='submit') Update task
+
+        br
+        br
+        br
+
+        script(src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js")
+        script(src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js")
+
+        script
+            include ../public/javascripts/show_pending.js
+            include ../public/javascripts/show_repeat.js
+            include ../public/javascripts/show_days.js
+            include ../public/javascripts/add_dep.js
+

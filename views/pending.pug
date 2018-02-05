@@ -1,0 +1,253 @@
+extends layout
+
+block content
+    div.container.col-sm-12
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+
+    div.col-sm-2
+    div.container.index-group.col-sm-7(style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1)")
+        div.row
+            h2.title On Hold
+            h5(style="font-weight:normal;margin-left:4.5%") Click on a task to see more. Click on a dependency to remove it.
+
+        br
+        hr
+        
+        if tasks.length > 0
+
+            each task in tasks
+                div.row.task-group-adjust.task-buttons.no-gutters
+                    div.col-sm-8(style="padding-left:10 padding-right:0")
+                        p.task-collapse.task-collapse-cursor(style="display:inline-block") 
+                            if task.priority_level > 8
+                                span(class="glyphicon glyphicon-stop" style="color:red") &nbsp; 
+                                | #{task.task_name} 
+                            else if task.priority_level > 5
+                                span(class="glyphicon glyphicon-stop" style="color:DarkOrange") &nbsp; 
+                                | #{task.task_name} 
+                            else if task.priority_level > 2
+                                span(class="glyphicon glyphicon-stop" style="color:gold") &nbsp; 
+                                | #{task.task_name} 
+                            else
+                                span(class="glyphicon glyphicon-stop" style="color:green") &nbsp; 
+                                | #{task.task_name} 
+
+                    div.col-sm-4
+                        div.indexButtons.col-sm-8.buttons(style="padding-right:0")
+                            form(action=task.url_complete method='POST')
+                                button.btn.btn-link.btn-xs(type='submit' data-toggle="tooltip" title="Mark as complete") 
+                                    span.task-button-font.glyphicon.glyphicon-ok
+
+                            form(action=task.url_edit method='POST' )
+                                button.btn.btn-link.btn-xs(type='submit' data-toggle="tooltip" title="Edit") 
+                                    span.task-button-font.glyphicon.glyphicon-pencil
+
+                            form(action=task.url_incomplete_pending method='POST')
+                                button.btn.btn-link.btn-xs(type='submit' data-toggle="tooltip" title="Return to main tasks") 
+                                    span.task-button-font.glyphicon.glyphicon-retweet
+
+                            if task.repeat
+
+                                form(action=task.url_remove_pending method='POST' )
+                                    button.btn.btn-link.btn-xs(type='button' data-toggle="tooltip" title="Remove task" style="display:inline") 
+                                        span.task-button-font.glyphicon.glyphicon-trash(data-toggle="modal" data-target='#'+task._id )
+                            else 
+                                form(action=task.url_remove_pending method='POST')
+                                    button.btn.btn-link.btn-xs(type='submit' data-toggle="tooltip" title="Remove task" style="display:inline") 
+                                        span.task-button-font.glyphicon.glyphicon-trash
+
+                        div.indexButtons2.col-sm-4.col-sm-offset-2.col-xs-4
+                            div.dropdown
+                                button.btn.btn-xs.glyphicon.glyphicon-option-horizontal.dropdown-toggle(type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
+                                ul.dropdown-menu.dropdown-menu-right(aria-labelledby="dropdownMenuButton")
+
+                                    li.dropdown-item.buttons-hover(href="#" style="font-size:12px") 
+                                        form(action=task.url_complete method='POST')
+                                            button.btn.btn-link.btn-xs.no-underline(type='submit' style="color:black") 
+                                                span.task-button-font.glyphicon.glyphicon-ok
+                                                p(style="display:inline") &nbsp; Mark as complete
+                                    li.dropdown-item.buttons-hover(href="#" style="font-size:12px") 
+                                        form(action=task.url_edit method='POST' )
+                                            button.btn.btn-link.btn-xs.no-underline(type='submit' style="color:black") 
+                                                span.task-button-font.glyphicon.glyphicon-pencil
+                                                p(style="display:inline") &nbsp; Edit
+                                    li.dropdown-item.buttons-hover(href="#" style="font-size:12px") 
+                                        form(action=task.url_incomplete_pending method='POST')
+                                            button.btn.btn-link.btn-xs.no-underline(type='submit' style="color:black") 
+                                                span.task-button-font.glyphicon.glyphicon-retweet
+                                                p(style="display:inline") &nbsp; Return to main tasks
+                                    li.dropdown-item.buttons-hover(href="#" style="font-size:12px")
+                                        if task.repeat
+
+                                            form(action=task.url_remove_pending method='POST' )
+                                                button.btn.btn-link.btn-xs.no-underline(type='button' data-toggle="modal" data-target='#'+task._id style="display:inline; color:black") 
+                                                    span.task-button-font.glyphicon.glyphicon-trash
+                                                    p.collapsedRemove(style="display:inline") &nbsp; Remove task
+                                        else 
+                                            form(action=task.url_remove_pending method='POST')
+                                                button.btn.btn-link.btn-xs.no-underline(type='submit' style="display:inline; color:black") 
+                                                    span.task-button-font.glyphicon.glyphicon-trash 
+                                                    p(style="display:inline") &nbsp; Remove task
+
+                            
+
+                        div.indexButtons3.col-sm-4(style="padding-left:0")
+                            p(style="text-align:left") #{task.deadline_formatted_2}  
+
+                        div.indexButtons4.col-sm-6.col-xs-8(style="padding-left:3%")
+                            p(style="text-align:right") #{task.deadline_formatted_2} 
+
+                div.row.content.task-collapse(style="display:none")
+                    div.row.task-extra-adjust
+                        div.col-sm-12
+                            p Reminder scheduled for: #{task.reminder_formatted_2} at #{task.time_formatted}
+
+                    div.row.task-extra-adjust
+                        div.col-sm-12
+                            if task.repeat
+
+                                if task.unit_of_time == 'week'
+                                    if task.freq > 1
+
+                                        if task.repeat_on == '1,2,3,4,5'
+                                            p(style="display:inline") Repeat: every weekday every #{task.freq} weeks
+                                        
+                                        else if task.repeat_on == '0,1,2,3,4,5,6' 
+                                            p(style="display:inline") Repeat: every day every #{task.freq} weeks
+
+                                        else
+                                            p(style="display:inline") Repeat: every #{task.freq}  #{task.unit_of_time}s on 
+                                                each d, index in task.repeat_on
+                                                    if d == 0
+                                                        p(style="display:inline") Sun
+
+                                                    else if d == 1
+                                                        p(style="display:inline") Mon
+
+                                                    else if d == 2
+                                                        p(style="display:inline") Tue
+
+                                                    else if d == 3
+                                                        p(style="display:inline") Wed
+
+                                                    else if d == 4
+                                                        p(style="display:inline") Thu
+
+                                                    else if d == 5
+                                                        p(style="display:inline") Fri
+
+                                                    else if d == 6
+                                                        p(style="display:inline") Sat
+
+                                                    if index < task.repeat_on.length - 1
+                                                        p(style="display:inline") , 
+     
+
+                                    else
+                                        if task.repeat_on == '1,2,3,4,5' && task.freq == 1
+                                            p(style="display:inline") Repeat: every weekday
+                                        else if task.repeat_on == '0,1,2,3,4,5,6' && task.freq == 1
+                                            p(style="display:inline") Repeat: every day
+                                        else
+                                         
+                                            p(style="display:inline") Repeat: every #{task.unit_of_time} on  
+                                                each d, index in task.repeat_on
+                                                    if d == 0
+                                                        p(style="display:inline") Sun
+
+                                                    else if d == 1
+                                                        p(style="display:inline") Mon
+
+                                                    else if d == 2
+                                                        p(style="display:inline") Tue
+
+                                                    else if d == 3
+                                                        p(style="display:inline") Wed
+
+                                                    else if d == 4
+                                                        p(style="display:inline") Thu
+
+                                                    else if d == 5
+                                                        p(style="display:inline") Fri
+
+                                                    else if d == 6
+                                                        p(style="display:inline") Sat
+
+                                                    if index < task.repeat_on.length - 1
+                                                        p(style="display:inline") , 
+
+
+                                else 
+                                    if task.freq > 1
+                                        p Repeat: every #{task.freq} #{task.unit_of_time}s
+                                    else
+                                        p Repeat: every #{task.unit_of_time} 
+                            else
+                                p Repeat: None
+                                
+                    div.row.task-extra-adjust
+                        div.col-sm-12
+                            if task.task_description != ''
+                                p Notes: #{task.task_description}
+                            else
+                                p Notes: None
+                    br
+                    div.row.task-extra-adjust
+                        div.col-sm-12
+                            p(style="font-weight:bold") Dependencies
+                        ul#checkbox(style="margin-left:12px")
+                            for t in task.dependencies
+                                //li.delete-dep
+                                li
+                                    form(action='/update/remove/'+task.id+'/'+t.id method='POST' style="margin-left:-10px") 
+                                        //p(style="display:inline") &nbsp; #{t.task_name} &nbsp;
+                                        //button.btn.btn-link.btn-xs.no-underline(type='submit' style="color:black; padding-bottom:0; padding-top:0" data-toggle="tooltip" title="Remove dependency") 
+                                            //span.task-button-font.glyphicon.glyphicon-trash  
+
+
+
+                                        button.btn.btn-link(type='submit' data-toggle="tooltip" title="Remove" style="padding-top:0; color:black; font-size:12px") #{t.task_name} 
+
+
+                div(class="modal fade" id=task._id)
+                    div(class="modal-dialog")
+                        div(class="modal-content")
+                            div(class="modal-header")
+                                button(type="button" class="close" data-dismiss="modal" aria-hidden="true") &times;
+                                h4(class="modal-title" id="myModalLabel") Remove Task
+                            div(class="modal-body")
+                                p Do you want to delete just this task or all future recurrences?
+                                form(role="form" method="POST" action=task.url_remove_pending)
+                                    div.form-group
+                                        input(type="radio" name="choice" value="one" checked="checked") 
+                                        | &nbsp; Just this task &nbsp;  &nbsp; 
+                                        input(type="radio" name="choice" value="all") 
+                                        | &nbsp; All future recurrences
+
+                                    br
+                                    button.btn.btn-primary(type="submit") Submit
+                                    p(style="display:inline") &nbsp; 
+                                    button.btn.btn-default(type="button" data-dismiss="modal") Cancel
+
+                hr
+
+
+    
+        else
+            p(style="margin-left:10px") You have no tasks on hold! 
+
+    script
+        include ../public/javascripts/tooltip_init.js
+        include ../public/javascripts/collapse.js
+        include ../public/javascripts/show_small.js

@@ -1,0 +1,113 @@
+extends layout
+
+block content
+
+    div.container.index-group.col-sm-8.col-sm-offset-2
+        div.row
+            h2.title Add task
+
+        p
+
+        form.form-horizontal.form-group-adjust(method='POST' action='')
+            div.row.form-group
+                label.col-sm-2(for='task_name' required) Task:
+                div.col-sm-10
+                    input#task_name.form-control(type='text' value=task_name name='task_name' )
+            
+            div.form-group
+                label.col-sm-2(for='task_description') Notes:
+                div.col-sm-10
+                    textarea#task_description.form-control(type='text' name='task_description' )
+            
+            div.form-group
+                label.col-sm-2(for='deadline' required) Deadline:
+                div.col-sm-4
+                    input#deadline.form-control(type='date' value=default_date name='deadline')
+
+                
+                label.col-sm-3(for='priority_level') Priority level:
+                div.col-sm-3
+                    select#priority_level.form-control(type='select' name='priority_level' required)
+                            option(value=1) 1 - Low
+                            option(value=2) 2
+                            option(value=3) 3
+                            option(value=4) 4
+                            option(value=5) 5 
+                            option(value=6) 6
+                            option(value=7) 7
+                            option(value=8) 8
+                            option(value=9) 9
+                            option(value=10, selected="selected") 10 - High
+
+            div.form-group
+                label.col-sm-2(for='status') Status:
+                div.col-sm-4
+                    select#status.form-control(type='select' name='status' required)
+                            option(value='incomplete' selected="selected") Incomplete
+                            option(value='pending') Pending
+                            option(value='repeated') Repeated
+
+
+            div#forPending.form-group(style="display:none")
+                label.col-sm-2(for='reminder' required) Set a reminder:
+                div.col-sm-4
+                    input#reminder.form-control(type='date' value=reminder_default name='reminder')
+                p (Default is set to tomorrow)
+
+
+            div#forPending2.form-group(style="display:none")
+                label.col-sm-10(for='dependency') Add dependencies
+                ul#checkbox
+                    for t in incomplete
+                        li(style="list-style:none display:inline-block")
+                            input.checkbox-input(type='checkbox', name='dependency', id=t._id, value=t._id, checked=t.checked )
+                            label(for=t._id style='font-weight:normal') &nbsp;#{t.task_name} 
+
+
+            div#forPending4.form-group(style="display:none")
+                label.col-sm-2(for='freq' required) Repeat every:
+                div.col-sm-2
+                    input#freq.form-control(type='number' value=1 name='freq')
+                div.col-sm-3
+                    select#unit_of_time.form-control(type='select' name='unit_of_time' required)
+                            option(value='day') day(s)
+                            option(value='week' selected="selected") week(s)
+                            option(value='pending') month(s)
+                            option(value='pending') year(s)
+
+
+            div#forPending3.form-group(style="display:none")
+                label.col-sm-2(for='repeat_on' control-label) Repeat on:
+                div.col-sm-10
+                    label.checkbox-inline
+                        input.checkbox-input(type='checkbox', name='repeat_on' value=0 checked) 
+                        p Sun
+                    label.checkbox-inline
+                        input.checkbox-input(type='checkbox', name='repeat_on' value=1)
+                        p Mon
+                    label.checkbox-inline
+                        input.checkbox-input(type='checkbox', name='repeat_on' value=2)
+                        p Tue
+                    label.checkbox-inline
+                        input.checkbox-input(type='checkbox', name='repeat_on' value=3)
+                        p Wed
+                    label.checkbox-inline
+                        input.checkbox-input(type='checkbox', name='repeat_on' value=4)
+                        p Thu
+                    label.checkbox-inline
+                        input.checkbox-input(type='checkbox', name='repeat_on' value=5)
+                        p Fri
+                    label.checkbox-inline
+                        input.checkbox-input(type='checkbox', name='repeat_on' value=6)
+                        p Sat
+
+            button.btn.btn-primary(type='submit') Add task
+
+
+
+        script(src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js")
+        script(src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js")
+
+        script
+            include ../public/javascripts/show_pending.js
+            include ../public/javascripts/show_days.js

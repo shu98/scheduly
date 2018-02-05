@@ -1,0 +1,420 @@
+extends layout
+
+block content
+    
+    div.container.col-sm-12
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+        div.row
+            p
+
+    //div.container.index-group.col-sm-7(style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1)")
+    div.container.index-group.col-sm-7(style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1)")
+        div.row
+            div.col-sm-4(style="margin-right:0px")
+                h2.title(style="margin-left:10%") Today &nbsp;
+                p(style="margin-left:10%; display:inline-block") Click on a task to see more. 
+            div.col-sm-6
+                if !overdue
+                    div.alert.alert-danger(style="padding:10px 10px; margin-top:30px; width:97%; margin-bottom:0")
+                            p(style="display:inline-block; font-size:12px") You have tasks that are overdue! View them 
+                                a(href='/tasks/overdue' style="text-decoration:underline; color:darkred; font-size:12px") here
+                                | .
+
+
+
+        form#formTask.form-horizontal(method='POST' action='/newtask')
+            div.form-group.row
+                div.row.form-group-adjust
+                    
+                    div.col-sm-10.col-xs-9
+                        input#initial_task_name.form-control.task-border.input-sm(type='text',  name='initial_task_name' placeholder="Remember to smile!" required)
+                    div.col-sm-2.col-xs-3
+                        button#initial_add_task.btn.btn-primary(type='button' data-toggle="modal" data-target="#createtask" style="padding-top:3px; padding-bottom:4px" ) Add task 
+
+        div.modal.fade(id="createtask")
+            div#taskmodal.class.modal-dialog
+                div.modal-content
+                    div.modal-header
+                        button(type="button" class="close" data-dismiss="modal") &times;
+                        h3.modal-title Add Task
+                    div.modal-header
+                        form(role="form" method="POST" action='/newtask')
+                            div.form-group
+                                label.col-sm-2(for='task_name') Task:
+                                div.col-sm-10
+                                    input#task_name.form-control(type='text'  name='task_name' required)
+                            div.form-group
+                                br
+                                br
+                            div.form-group
+                                label.col-sm-2(for='deadline' style="padding-top:7px") Deadline:
+                                div.col-sm-4
+                                    input#deadline.form-control(type='date' value=deadline_default name='deadline' required)
+
+                                label.col-sm-3(for='priority_level' style="padding-top:7px" ) Priority level:
+                                div.col-sm-3
+                                    select#priority_level.form-control(type='select' name='priority_level' required)
+                                        for val in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+                                            if val == 0
+                                                option(value=val selected="selected") None
+
+                                            else if val == 1
+                                                option(value=val) #{val} - Low
+
+                                            else if val == 5
+                                                option(value=val) #{val} - Medium
+
+                                            else if val == 10
+                                                option(value=val) #{val} - High 
+
+                                            else 
+                                                option(value=val) #{val}
+                            div.form-group
+                                br
+                                br
+
+                            div.form-group
+                                label.col-sm-2(for='status' style="padding-top:7px" ) Status:
+                                div.col-sm-4
+                                    select#status.form-control(type='select' name='status' required)
+                                        option(value="incomplete" selected="selected") Incomplete
+                                        option(value="pending") On Hold
+
+                            div.form-group
+                                br
+                                br
+
+                            button.btn.btn-primary(type="submit" style="margin-left:2%") Add task
+                            p(style="display:inline") &nbsp; 
+                            button.btn.btn-default(type="button" data-dismiss="modal") Cancel
+
+
+        
+        hr
+
+        if tasks.length > 0
+
+            each task in tasks
+                div.row.task-group-adjust.task-buttons.no-gutters
+                    div.col-sm-8.col-xs-9(style="padding-right:0")
+                        p.task-collapse.task-collapse-cursor(style="display:inline-block") 
+                            if task.priority_level > 8
+                                span(class="glyphicon glyphicon-stop" style="color:red") &nbsp; 
+                                | #{task.task_name} 
+                            else if task.priority_level > 5
+                                span(class="glyphicon glyphicon-stop" style="color:DarkOrange") &nbsp; 
+                                | #{task.task_name} 
+                            else if task.priority_level > 2
+                                span(class="glyphicon glyphicon-stop" style="color:gold") &nbsp; 
+                                | #{task.task_name} 
+                            else
+                                span(class="glyphicon glyphicon-stop" style="color:green") &nbsp; 
+                                | #{task.task_name} 
+
+
+                    div.col-sm-4.col-xs-3
+                        div.indexButtons.col-sm-8.buttons(style="padding-right:0")
+                            form(action=task.url_complete method='POST')
+                                button.btn.btn-link.btn-xs(type='submit' data-toggle="tooltip" title="Mark as complete" style="display:inline") 
+                                    span.task-button-font.glyphicon.glyphicon-ok
+
+                            form(action=task.url_edit method='POST' )
+                                button.btn.btn-link.btn-xs(type='submit' data-toggle="tooltip" title="Edit" style="display:inline") 
+                                    span.task-button-font.glyphicon.glyphicon-pencil
+
+                            form(action=task.url_pending method='POST')
+                                button.btn.btn-link.btn-xs(type='submit' data-toggle="tooltip" title="Schedule for later" style="display:inline") 
+                                    span.task-button-font.glyphicon.glyphicon-calendar
+
+                            if task.repeat
+
+                                form(action=task.url_remove method='POST' )
+                                    button.btn.btn-link.btn-xs(type='button' data-toggle="tooltip" title="Remove task" style="display:inline") 
+                                        span.task-button-font.glyphicon.glyphicon-trash(data-toggle="modal" data-target='#'+task._id )
+                            else 
+                                form(action=task.url_remove method='POST')
+                                    button.btn.btn-link.btn-xs(type='submit' data-toggle="tooltip" title="Remove task" style="display:inline") 
+                                        span.task-button-font.glyphicon.glyphicon-trash
+
+                        div.indexButtons2.col-sm-4.col-sm-offset-2.col-xs-4
+                            div.dropdown
+                                button.btn.btn-xs.glyphicon.glyphicon-option-horizontal.dropdown-toggle(type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
+                                ul.dropdown-menu.dropdown-menu-right(aria-labelledby="dropdownMenuButton")
+
+                                    li.dropdown-item.buttons-hover(href="#" style="font-size:12px") 
+                                        form(action=task.url_complete method='POST')
+                                            button.btn.btn-link.btn-xs.no-underline(type='submit' style="color:black") 
+                                                span.task-button-font.glyphicon.glyphicon-ok
+                                                p(style="display:inline") &nbsp; Mark as complete
+                                    li.dropdown-item.buttons-hover(href="#" style="font-size:12px") 
+                                        form(action=task.url_edit method='POST' )
+                                            button.btn.btn-link.btn-xs.no-underline(type='submit' style="color:black") 
+                                                span.task-button-font.glyphicon.glyphicon-pencil
+                                                p(style="display:inline") &nbsp; Edit
+                                    li.dropdown-item.buttons-hover(href="#" style="font-size:12px") 
+                                        form(action=task.url_pending method='POST')
+                                            button.btn.btn-link.btn-xs.no-underline(type='submit' style="color:black") 
+                                                span.task-button-font.glyphicon.glyphicon-calendar
+                                                p(style="display:inline") &nbsp; Schedule for later
+                                    li.dropdown-item.buttons-hover(href="#" style="font-size:12px")
+                                        if task.repeat
+
+                                            form(action=task.url_remove method='POST' )
+                                                button.btn.btn-link.btn-xs.no-underline(type='button' data-toggle="modal" data-target='#'+task._id style="display:inline; color:black") 
+                                                    span.task-button-font.glyphicon.glyphicon-trash
+                                                    p.collapsedRemove(style="display:inline") &nbsp; Remove task
+                                        else 
+                                            form(action=task.url_remove method='POST')
+                                                button.btn.btn-link.btn-xs.no-underline(type='submit' style="display:inline; color:black") 
+                                                    span.task-button-font.glyphicon.glyphicon-trash 
+                                                    p(style="display:inline") &nbsp; Remove task
+
+                        div.indexButtons3.col-sm-4(style="padding-left:0")
+                            p(style="text-align:right") #{task.deadline_formatted_2} 
+
+                        div.indexButtons4.col-sm-6.col-xs-8(style="padding-left:3%")
+                            p(style="text-align:right") #{task.deadline_formatted_2}  
+
+                div.row.content.task-collapse(style="display:none")
+                    div.row.task-extra-adjust
+                        div.col-sm-12
+                            if task.repeat
+
+                                if task.unit_of_time == 'week'
+                                    if task.freq > 1
+
+                                        if task.repeat_on == '1,2,3,4,5'
+                                            p(style="display:inline") Repeat: every weekday every #{task.freq} weeks
+                                        
+                                        else if task.repeat_on == '0,1,2,3,4,5,6' 
+                                            p(style="display:inline") Repeat: every day every #{task.freq} weeks
+
+                                        else
+                                            p(style="display:inline") Repeat: every #{task.freq}  #{task.unit_of_time}s on 
+                                                each d, index in task.repeat_on
+                                                    if d == 0
+                                                        p(style="display:inline") Sun
+
+                                                    else if d == 1
+                                                        p(style="display:inline") Mon
+
+                                                    else if d == 2
+                                                        p(style="display:inline") Tue
+
+                                                    else if d == 3
+                                                        p(style="display:inline") Wed
+
+                                                    else if d == 4
+                                                        p(style="display:inline") Thu
+
+                                                    else if d == 5
+                                                        p(style="display:inline") Fri
+
+                                                    else if d == 6
+                                                        p(style="display:inline") Sat
+
+                                                    if index < task.repeat_on.length - 1
+                                                        p(style="display:inline") , 
+     
+
+                                    else
+                                        if task.repeat_on == '1,2,3,4,5' && task.freq == 1
+                                            p(style="display:inline") Repeat: every weekday
+                                        else if task.repeat_on == '0,1,2,3,4,5,6' && task.freq == 1
+                                            p(style="display:inline") Repeat: every day
+                                        else
+                                         
+                                            p(style="display:inline") Repeat: every #{task.unit_of_time} on  
+                                                each d, index in task.repeat_on
+                                                    if d == 0
+                                                        p(style="display:inline") Sun
+
+                                                    else if d == 1
+                                                        p(style="display:inline") Mon
+
+                                                    else if d == 2
+                                                        p(style="display:inline") Tue
+
+                                                    else if d == 3
+                                                        p(style="display:inline") Wed
+
+                                                    else if d == 4
+                                                        p(style="display:inline") Thu
+
+                                                    else if d == 5
+                                                        p(style="display:inline") Fri
+
+                                                    else if d == 6
+                                                        p(style="display:inline") Sat
+
+                                                    if index < task.repeat_on.length - 1
+                                                        p(style="display:inline") , 
+
+
+                                else 
+                                    if task.freq > 1
+                                        p Repeat: every #{task.freq} #{task.unit_of_time}s
+                                    else
+                                        p Repeat: every #{task.unit_of_time} 
+                            else
+                                p Repeat: None
+
+
+                    div.row.task-extra-adjust
+                        div.col-sm-12
+                            if task.task_description != ''
+                                p Notes: #{task.task_description}
+                            else
+                                p Notes: None
+
+                div(class="modal fade" id=task._id)
+                    div(class="modal-dialog")
+                        div(class="modal-content")
+                            div(class="modal-header")
+                                button(type="button" class="close" data-dismiss="modal" aria-hidden="true") &times;
+                                h4(class="modal-title" id="myModalLabel") Remove Task
+                            div(class="modal-body")
+                                p Do you want to delete just this task or all future recurrences?
+                                form(role="form" method="POST" action=task.url_remove)
+                                    div.form-group
+                                        input(type="radio" name="choice" value="one" checked="checked") 
+                                        | &nbsp; Just this task &nbsp;  &nbsp; 
+                                        input(type="radio" name="choice" value="all") 
+                                        | &nbsp; All future recurrences
+
+                                    br
+                                    button.btn.btn-primary(type="submit") Submit
+                                    p(style="display:inline") &nbsp; 
+                                    button.btn.btn-default(type="button" data-dismiss="modal") Cancel
+                
+                hr
+
+        else
+
+            p(style="margin-left:3%") Your day is clean!
+
+        br
+        br
+        
+
+    div.container.col-sm-4.hidden-xs.pending-notice(style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1); margin-left:1%")
+        if (user)
+
+            div.row
+                h2.pending-title(style="text-align:left") Scheduled Reminders
+                h5(style="font-family: 'Helvetica'; text-align:left; margin-left:6%") Click on a task to add it to today's to-do.
+
+            br.pending-break
+            
+            if pending_tasks.length > 0
+                br
+                hr.pending-index   
+
+
+                each task in pending_tasks
+
+                    div.row
+                        div.col-sm-10.pending-task-group-adjust
+                            form(action=task.url_incomplete method='POST' style="text-align:left; padding-left:1%; padding-right:0px; margin-right:0")
+                                button.btn.btn-link(type='submit' data-toggle="tooltip" title="Return to main tasks" style="padding-top:0; color:black")  
+                                    if task.priority_level > 8
+                                        span(class="glyphicon glyphicon-stop" style="color:red") &nbsp; 
+                                        | #{task.task_name}
+                                    else if task.priority_level > 5
+                                        span(class="glyphicon glyphicon-stop" style="color:DarkOrange") &nbsp; 
+                                        | #{task.task_name} 
+                                    else if task.priority_level > 2
+                                        span(class="glyphicon glyphicon-stop" style="color:gold") &nbsp; 
+                                        | #{task.task_name} 
+                                    else
+                                        span(class="glyphicon glyphicon-stop" style="color:green") &nbsp; 
+                                        | #{task.task_name} 
+
+                        div.col-sm-1.pull-left
+                            div.dropdown
+                                button.btn.btn-xs.glyphicon.glyphicon-option-horizontal.dropdown-toggle(type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
+                                ul.dropdown-menu.dropdown-menu-right(aria-labelledby="dropdownMenuButton")
+
+                                    li.dropdown-item.buttons-hover
+                                        form(action=task.url_incomplete method='POST')
+                                            button.btn.btn-link.btn-xs.no-underline(type='submit' style="color:black") 
+                                                span.task-button-font.glyphicon.glyphicon-export
+                                                p(style="display:inline") &nbsp; Return to main tasks
+
+                                    li.dropdown-item.buttons-hover
+                                        form(action=task.url_reminder_tomorrow method='POST')
+                                            button.btn.btn-link.btn-xs.no-underline(type='submit' style="color:black") 
+                                                span.task-button-font.glyphicon.glyphicon-time
+                                                p(style="display:inline") &nbsp; Remind me tomorrow
+
+
+                                    hr(style="margin-left:7px; margin-right:7px")
+
+                                    li.dropdown-item.buttons-hover(href="#" style="font-size:12px")
+                                        form(action=task.url_complete method='POST')
+                                            button.btn.btn-link.btn-xs.no-underline(type='submit' style="color:black") 
+                                                span.task-button-font.glyphicon.glyphicon-ok
+                                                p(style="display:inline") &nbsp; Mark as complete
+                                    li.dropdown-item.buttons-hover(href="#" style="font-size:12px") 
+                                        form(action=task.url_edit method='POST' )
+                                            button.btn.btn-link.btn-xs.no-underline(type='submit' style="color:black") 
+                                                span.task-button-font.glyphicon.glyphicon-pencil
+                                                p(style="display:inline") &nbsp; Edit
+                                    li.dropdown-item.buttons-hover(href="#" style="font-size:12px") 
+                                        form(action=task.url_pending method='POST')
+                                            button.btn.btn-link.btn-xs.no-underline(type='submit' style="color:black") 
+                                                span.task-button-font.glyphicon.glyphicon-calendar
+                                                p(style="display:inline") &nbsp; Schedule another reminder
+                                    li.dropdown-item.buttons-hover(href="#" style="font-size:12px")
+                                        form(action=task.url_remove method='POST' )
+                                            button.btn.btn-link.btn-xs.no-underline(type='submit' style="color:black") 
+                                                span.task-button-font.glyphicon.glyphicon-trash  
+                                                p(style="display:inline") &nbsp; Remove task
+
+
+                       
+                    hr.pending-index
+
+            else
+                p(style="margin-left:3%") You have no reminders scheduled!
+    
+    div.container.col-sm-4.hidden-xs.message(style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1); margin-left:1%; margin-top:1.2%")
+        div.row
+            h2.message-title(style="text-align:left") From Your Friendly Neighborhood Task Manager
+            h5.message-content.task-status(style="color:green; display:inline-block") Tasks completed: #{complete}
+            h5.message-content.task-status(style="color:red; display:inline-block") Tasks in progress: #{num_incomplete}
+            h5.message-content.task-status(style="color:gold; display:inline-block; margin-right:4%") Tasks on hold: #{num_pending}
+            h5.message-content(style="margin-top:4%") #{message}
+
+        if show_question
+            form#formAcc.form-horizontal(method='POST' action=acc.url_acc)
+                div.form-group.row
+                    div.col-sm-11(style="margin-top:-2%; margin-left:2.5%; margin-right:2.5%")
+                        h5(for="answer" style="font-weight:normal;font-size:12px; font-family: 'Helvetica'") #{acc.question}
+                        input#answer.form-control.input-sm(type='text' name='answer' style="margin-top:-1%" placeholder="Press enter to tell Scheduly about your day!" required)
+        else
+            div.row
+                h5.message-content(style="margin-top:1.5%; margin-bottom:0") #{acc.statement}:
+                //h5.message-content(style="margin-top:-2%") #{acc.accomplishment_name}
+                span(class="glyphicon glyphicon-star" style="color:lightblue; margin-left:6%; margin-right:0px; font-size:12px")
+                h5.message-content(style="display:inline; margin-top:-2%; margin-left:0") &nbsp; #{acc.accomplishment_name}
+
+
+    script
+        include ../public/javascripts/sort_submit.js
+        include ../public/javascripts/task_submit.js
+        include ../public/javascripts/collapse.js
+        include ../public/javascripts/tooltip_init.js
+        include ../public/javascripts/show_small.js
+        include ../public/javascripts/acc_submit.js
+
