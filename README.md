@@ -4,7 +4,7 @@ Website URL: https://myscheduly.herokuapp.com/welcome
 
 3rd place winner of the 2018 6.148 Web Programming Competition (Casual Division)
 
-Scheduly is a task scheduling app that helps you feel motivated and productive. In addition to managing your 
+Description: Scheduly is a task scheduling app that helps you feel motivated and productive. In addition to managing your 
 tasks, Scheduly includes a number of innovative features that aim to keep your day clean and your mind focused on one thing 
 at a time. 
 
